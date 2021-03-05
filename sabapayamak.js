@@ -30,12 +30,11 @@ var SabapayamakApi = function (options) {
 
 
 
-SabapayamakApi.prototype.post = function (fullPath, data, callback) {
-    var postdata = JSON.parse(data);
+SabapayamakApi.prototype.post = function (fullPath, postdata, callback) {
     var post_options = {
         host: this.options.host,
         port: '443',
-        path: fullPath,
+        path: "https://" + fullPath,
         method: 'POST',
         headers: {
             'Content-Length': postdata.length,
@@ -70,8 +69,7 @@ SabapayamakApi.prototype.post = function (fullPath, data, callback) {
     req.end();
 };
 
-SabapayamakApi.prototype.postWithToken = function (fullPath, data, token, callback) {
-    var postdata = JSON.parse(data);
+SabapayamakApi.prototype.postWithToken = function (fullPath, postdata, token, callback) {
     var post_options = {
         host: this.options.host,
         port: '443',
@@ -153,86 +151,87 @@ SabapayamakApi.prototype.get = function (fullPath, token, callback) {
 
 SabapayamakApi.prototype.getToken = function (username, password, virtualnumber, validday, callback) {
     var url = this.options.host + TOKEN_URL;
-    let data = {
+    var data = {
         "username": username,
         "password": password,
         "virtualnumber": virtualnumber,
         "validday": validday
     };
-    this.post(url, data, callback);
+
+    this.post(url, JSON.stringify(data), callback);
 };
 
 SabapayamakApi.prototype.getCredit = function (token, callback) {
     var url = this.options.host + CREDIT_URL;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditByDate = function (startdate,enddate,token, callback) {
-    var url = this.options.host + CREDIT_DATE_URL+'?StartDate='+startdate+'&EndDate'+enddate;
+SabapayamakApi.prototype.getCreditByDate = function (startdate, enddate, token, callback) {
+    var url = this.options.host + CREDIT_DATE_URL + '?StartDate=' + startdate + '&EndDate' + enddate;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditByCount = function (count,token, callback) {
-    var url = this.options.host + CREDIT_COUNT_URL+'/'+count;
+SabapayamakApi.prototype.getCreditByCount = function (count, token, callback) {
+    var url = this.options.host + CREDIT_COUNT_URL + '/' + count;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditForSendSms = function (count,token, callback) {
-    var url = this.options.host + CREDIT_SNED_SMS_URL+'/'+count;
+SabapayamakApi.prototype.getCreditForSendSms = function (count, token, callback) {
+    var url = this.options.host + CREDIT_SNED_SMS_URL + '/' + count;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditForRecivedSms = function (count,token, callback) {
-    var url = this.options.host + CREDIT_RECIVED_SMS_URL+'/'+count;
+SabapayamakApi.prototype.getCreditForRecivedSms = function (count, token, callback) {
+    var url = this.options.host + CREDIT_RECIVED_SMS_URL + '/' + count;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditForCharge = function (count,token, callback) {
-    var url = this.options.host + CREDIT_CHARGE_SMS_URL+'/'+count;
+SabapayamakApi.prototype.getCreditForCharge = function (count, token, callback) {
+    var url = this.options.host + CREDIT_CHARGE_SMS_URL + '/' + count;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getCreditForMoneyBack = function (count,token, callback) {
-    var url = this.options.host + CREDIT_MONEY_BACK_SMS_URL+'/'+count;
+SabapayamakApi.prototype.getCreditForMoneyBack = function (count, token, callback) {
+    var url = this.options.host + CREDIT_MONEY_BACK_SMS_URL + '/' + count;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getMessagesByDate = function (startdate,enddate,token, callback) {
-    var url = this.options.host + MESSAGE_DATE_URL+'?StartDate='+startdate+'&EndDate'+enddate;
+SabapayamakApi.prototype.getMessagesByDate = function (startdate, enddate, token, callback) {
+    var url = this.options.host + MESSAGE_DATE_URL + '?StartDate=' + startdate + '&EndDate' + enddate;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getMessageById = function (id,token, callback) {
-    var url = this.options.host + MESSAGE_GET_URL+'/'+id;
+SabapayamakApi.prototype.getMessageById = function (id, token, callback) {
+    var url = this.options.host + MESSAGE_GET_URL + '/' + id;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getMessageByNumber = function (number,token, callback) {
-    var url = this.options.host + MESSAGE_NUMBER_URL+'/'+number;
+SabapayamakApi.prototype.getMessageByNumber = function (number, token, callback) {
+    var url = this.options.host + MESSAGE_NUMBER_URL + '/' + number;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.sendMessage = function (text,numbers,token, callback) {
+SabapayamakApi.prototype.sendMessage = function (text, numbers, token, callback) {
     var url = this.options.host + MESSAGE_SEND_URL;
     var url = this.options.host + TOKEN_URL;
     let data = {
         "text": text,
         "numbers": numbers
     };
-    this.postWithToken(url,data, token, callback);
+    this.postWithToken(url, JSON.stringify(data), token, callback);
 };
-SabapayamakApi.prototype.getDeliveriesById = function (id,token, callback) {
-    var url = this.options.host + MESSAGE_DELIVERY_URL+'/'+id;
+SabapayamakApi.prototype.getDeliveriesById = function (id, token, callback) {
+    var url = this.options.host + MESSAGE_DELIVERY_URL + '/' + id;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getRecivedMessageByDate = function (startdate,enddate,token, callback) {
-    var url = this.options.host + RECIVED_MESSAGE_DATE_URL+'?StartDate='+startdate+'&EndDate'+enddate;
+SabapayamakApi.prototype.getRecivedMessageByDate = function (startdate, enddate, token, callback) {
+    var url = this.options.host + RECIVED_MESSAGE_DATE_URL + '?StartDate=' + startdate + '&EndDate' + enddate;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getRecivedMessageByNumber = function (number,token, callback) {
-    var url = this.options.host + RECIVED_MESSAGE_NUMBER_URL+'/'+number;
+SabapayamakApi.prototype.getRecivedMessageByNumber = function (number, token, callback) {
+    var url = this.options.host + RECIVED_MESSAGE_NUMBER_URL + '/' + number;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getUnreadRecivedMessageByNumber = function (number,token, callback) {
-    var url = this.options.host + RECIVED_MESSAGE_NUMBER_UNREAD_URL+'/'+number+'/unread';
+SabapayamakApi.prototype.getUnreadRecivedMessageByNumber = function (number, token, callback) {
+    var url = this.options.host + RECIVED_MESSAGE_NUMBER_UNREAD_URL + '/' + number + '/unread';
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getRecivedMessageByNumber = function (vnumber,token, callback) {
-    var url = this.options.host + RECIVED_MESSAGE_VNUMBER_URL+'/'+vnumber;
+SabapayamakApi.prototype.getRecivedMessageByNumber = function (vnumber, token, callback) {
+    var url = this.options.host + RECIVED_MESSAGE_VNUMBER_URL + '/' + vnumber;
     this.get(url, token, callback);
 };
-SabapayamakApi.prototype.getUnreadRecivedMessageByNumber = function (vnumber,token, callback) {
-    var url = this.options.host + RECIVED_MESSAGE_VNUMBER_UNREAD_URL+'/'+vnumber+'/unread';
+SabapayamakApi.prototype.getUnreadRecivedMessageByNumber = function (vnumber, token, callback) {
+    var url = this.options.host + RECIVED_MESSAGE_VNUMBER_UNREAD_URL + '/' + vnumber + '/unread';
     this.get(url, token, callback);
 };
 SabapayamakApi.prototype.getUnreadRecivedMessage = function (token, callback) {
@@ -241,6 +240,6 @@ SabapayamakApi.prototype.getUnreadRecivedMessage = function (token, callback) {
 };
 
 module.exports.SabapayamakApi = function (options) {
-	var obj = new SabapayamakApi(options);
-	return obj;
+    var obj = new SabapayamakApi(options);
+    return obj;
 }
