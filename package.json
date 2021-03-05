@@ -1,6 +1,6 @@
 {
   "name": "sabapayamak",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "node sdk for SabaPayamak Rest API",
   "main": "sabapayamak.js",
   "scripts": {
