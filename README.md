@@ -1,4 +1,4 @@
-# Sabapaymak PHP Sdk for rest Api
+# Sabapaymak NodeJs Sdk for rest Api
 
 ## راهنما
 صبا پیامک یک سیستم ارسال پیامک است که از طریق پنل یا وب سرویس میتوانید از آن استفاده کنید.
