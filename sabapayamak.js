@@ -239,3 +239,8 @@ SabapayamakApi.prototype.getUnreadRecivedMessage = function (token, callback) {
     var url = this.options.host + RECIVED_MESSAGE_UNREAD_URL;
     this.get(url, token, callback);
 };
+
+module.exports.SabapayamakApi = function (options) {
+	var obj = new SabapayamakApi(options);
+	return obj;
+}
