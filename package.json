@@ -1,0 +1,26 @@
+{
+  "name": "sabapayamak",
+  "version": "1.0.0",
+  "description": "node sdk for SabaPayamak Rest API",
+  "main": "sabapayamak.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaransCo/sabapayamak-node.git"
+  },
+  "keywords": [
+    "SMS",
+    "API",
+    "Karans",
+    "Sabapayamak",
+    "SDK"
+  ],
+  "author": "Karans Co <info@karans.co> (https://karans.co)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KaransCo/sabapayamak-node/issues"
+  },
+  "homepage": "https://github.com/KaransCo/sabapayamak-node#readme"
+}
