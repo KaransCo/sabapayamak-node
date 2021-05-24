@@ -155,7 +155,7 @@ SabapayamakApi.prototype.getToken = function (username, password, virtualnumber,
         "username": username,
         "password": password,
         "virtualnumber": virtualnumber,
-        "validday": validday
+        "tokenvalidday": validday
     };
 
     this.post(url, JSON.stringify(data), callback);
