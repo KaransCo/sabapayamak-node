@@ -11,7 +11,8 @@ const CREDIT_MONEY_BACK_SMS_URL = "/api/v1/credit/money-back";
 const MESSAGE_DATE_URL = "/api/v1/messages";
 const MESSAGE_GET_URL = "/api/v1/messages";
 const MESSAGE_NUMBER_URL = "/api/v1/messages/number";
-const MESSAGE_SEND_URL = "/api/v1/messages";
+const MESSAGE_SEND_URL = "/api/v1/message";
+const MESSAGE_SEND_URL_GET = "/api/v1/message";
 const MESSAGE_DELIVERY_URL = "/api/v1/deliveries";
 const RECIVED_MESSAGE_DATE_URL = "/api/v1/recived-messages";
 const RECIVED_MESSAGE_NUMBER_URL = "/api/v1/recived-messages";
@@ -149,6 +150,45 @@ SabapayamakApi.prototype.get = function (fullPath, token, callback) {
     req.end();
 };
 
+SabapayamakApi.prototype.getWithoutToken = function (fullPath, callback) {
+
+    var post_options = {
+        host: this.options.host,
+        port: '443',
+        path: fullPath,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    var req = https.request(post_options, function (e) {
+        e.setEncoding('utf8');
+        var result = '';
+        e.on('data', function (data) {
+            result += data;
+        });
+        e.on('end', function () {
+            try {
+                if (callback) callback(
+                    result
+                );
+            } catch (e) {
+                console.log('Error Happend!', e);
+                if (callback) {
+                    callback([], 500, e.message)
+                }
+            }
+        })
+    });
+    req.write(postdata, "utf8");
+    req.on("error", function (e) {
+        if (callback) callback(JSON.stringify({
+            error: e.message
+        }));
+    });
+    req.end();
+};
+
 SabapayamakApi.prototype.getToken = function (username, password, virtualnumber, validday, callback) {
     var url = this.options.host + TOKEN_URL;
     var data = {
@@ -203,12 +243,16 @@ SabapayamakApi.prototype.getMessageByNumber = function (number, token, callback)
 };
 SabapayamakApi.prototype.sendMessage = function (text, numbers, token, callback) {
     var url = this.options.host + MESSAGE_SEND_URL;
-    var url = this.options.host + TOKEN_URL;
     let data = {
         "text": text,
         "numbers": numbers
     };
     this.postWithToken(url, JSON.stringify(data), token, callback);
+};
+SabapayamakApi.prototype.sendMessageWithoutToken = function (username, password, from, numbers, text, callback) {
+    var url = this.options.host + MESSAGE_SEND_URL_GET+'/'+'?UserName='+username+'&Password='+password+'&From='+from+'&To='+numbers+'&Text='+text;
+
+    this.getWithoutToken(url, callback);
 };
 SabapayamakApi.prototype.getDeliveriesById = function (id, token, callback) {
     var url = this.options.host + MESSAGE_DELIVERY_URL + '/' + id;
